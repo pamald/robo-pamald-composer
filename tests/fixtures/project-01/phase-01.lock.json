@@ -1,0 +1,22 @@
+{
+    "packages": [
+        {
+            "name": "a/a",
+            "version": "1.0.0"
+        },
+        {
+            "name": "a/b",
+            "version": "2.0.0"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "b/a",
+            "version": "3.0.0"
+        },
+        {
+            "name": "b/b",
+            "version": "4.0.0"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+parameters:
+	typeAliases:
+		robo-pamald-composer-collect-packages-task-options: '''
+			array{
+				assetNamePrefix?: string,
+				collector?: null|\Pamald\PamaldComposer\PackageCollector,
+				lock?: null|array<string, mixed>,
+				json?: null|array<string, mixed>,
+			}
+		'''
+		robo-pamald-composer-modify-commit-msg-parts-task-options: '''
+			array{
+				assetNamePrefix?: string,
+				sha1?: string,
+				patterns?: string,
+				stateKeyCommitMsgParts?: string,
+			}
+		'''
