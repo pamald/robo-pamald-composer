@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
-<ruleset name="RoboTask">
+<ruleset
+    name="Custom"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="./vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
     <file>./src/</file>
     <file>./tests/src/</file>
     <file>./tests/AcceptanceRoboFile.php</file>
     <file>./RoboFile.php</file>
+    <exclude-pattern>./src/Phpstan.php</exclude-pattern>
+    <exclude-pattern>./tests/src/Phpstan.php</exclude-pattern>
 
     <rule ref="PSR2"/>
 
@@ -11,4 +17,5 @@
         <exclude-pattern>./RoboFile.php</exclude-pattern>
         <exclude-pattern>./tests/AcceptanceRoboFile.php</exclude-pattern>
     </rule>
+
 </ruleset>
