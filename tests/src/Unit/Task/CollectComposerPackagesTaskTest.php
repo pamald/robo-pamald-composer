@@ -6,11 +6,13 @@ namespace Pamald\Robo\PamaldComposer\Tests\Unit\Task;
 
 use Pamald\Robo\PamaldComposer\Task\CollectComposerPackagesTask;
 use Pamald\Robo\PamaldComposer\Task\TaskBase;
-use Pamald\Robo\PamaldComposer\PamaldComposerTaskLoader;
 use Pamald\Robo\PamaldComposer\Tests\Helper\DummyTaskBuilder;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+/**
+ * @phpstan-import-type RoboPamaldComposerCollectPackagesTaskOptions from \Pamald\Robo\PamaldComposer\Phpstan
+ */
 #[CoversClass(CollectComposerPackagesTask::class)]
 #[CoversClass(TaskBase::class)]
 class CollectComposerPackagesTaskTest extends TaskTestBase
@@ -40,7 +42,7 @@ class CollectComposerPackagesTaskTest extends TaskTestBase
                     'exitCode' => 0,
                     'exitMessage' => '',
                     'assets' => [
-                        'pamald.composerPackages' => [
+                        'pamald.composer.dependencies' => [
                             'a/a' => [],
                             'b/a' => [],
                         ],
@@ -76,7 +78,7 @@ class CollectComposerPackagesTaskTest extends TaskTestBase
 
     /**
      * @phpstan-param array<string, mixed> $expected
-     * @phpstan-param robo-pamald-composer-collect-packages-task-options $options
+     * @phpstan-param RoboPamaldComposerCollectPackagesTaskOptions $options
      */
     #[DataProvider('casesRunSuccess')]
     public function testRunSuccess(array $expected, array $options): void
@@ -90,8 +92,8 @@ class CollectComposerPackagesTaskTest extends TaskTestBase
         static::assertSame($expected['exitCode'], $result->getExitCode());
         static::assertSame($expected['exitMessage'], $result->getMessage());
         static::assertSame(
-            array_keys($expected['assets']['pamald.composerPackages']),
-            array_keys($result['pamald.composerPackages']),
+            array_keys($expected['assets']['pamald.composer.dependencies']),
+            array_keys($result['pamald.composer.dependencies']),
         );
     }
 }

@@ -3,7 +3,7 @@ parameters:
 		robo-pamald-composer-collect-packages-task-options: '''
 			array{
 				assetNamePrefix?: string,
-				collector?: null|\Pamald\PamaldComposer\PackageCollector,
+				collector?: null|\Pamald\PamaldComposer\DependencyCollector,
 				lock?: null|array<string, mixed>,
 				json?: null|array<string, mixed>,
 			}

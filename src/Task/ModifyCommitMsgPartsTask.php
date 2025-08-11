@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Pamald\Robo\PamaldComposer\Task;
 
-use Pamald\Pamald\PackageCollectorInterface;
-use Pamald\PamaldComposer\PackageCollector;
+use Pamald\Pamald\DependencyCollectorInterface;
+use Pamald\PamaldComposer\DependencyCollector;
 use Pamald\Robo\Pamald\Task\ModifyCommitMsgPartsTaskBase;
 
 class ModifyCommitMsgPartsTask extends ModifyCommitMsgPartsTaskBase
@@ -32,9 +32,9 @@ class ModifyCommitMsgPartsTask extends ModifyCommitMsgPartsTaskBase
         return preg_replace('@\.lock$@', '.json', $lockFilePath);
     }
 
-    protected function getPackageCollector(): PackageCollectorInterface
+    protected function getDependencyCollector(): DependencyCollectorInterface
     {
-        return new PackageCollector();
+        return new DependencyCollector();
     }
 
     protected function isDomesticated(string $lockFilePath): bool

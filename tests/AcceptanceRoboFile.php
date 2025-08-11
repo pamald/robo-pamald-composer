@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
+use Consolidation\AnnotatedCommand\Attributes\Command;
 use Pamald\Pamald\Reporter\ConsoleTableReporter;
-use Pamald\PamaldComposer\PackageCollector;
+use Pamald\PamaldComposer\DependencyCollector;
 use Pamald\Robo\Pamald\PamaldTaskLoader;
 use Pamald\Robo\PamaldComposer\PamaldComposerTaskLoader;
 use Robo\Tasks;
@@ -11,6 +12,7 @@ use Robo\Contract\TaskInterface;
 use Robo\State\Data as RoboState;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Filesystem\Path;
+use Symfony\Component\Yaml\Yaml;
 
 class AcceptanceRoboFile extends Tasks
 {
@@ -22,9 +24,7 @@ class AcceptanceRoboFile extends Tasks
         return $this->getContainer()->get('output');
     }
 
-    /**
-     * @command pamald:report
-     */
+    #[Command(name: 'pamald:report')]
     public function cmdPamaldReportExecute(): TaskInterface
     {
         $cb = $this->collectionBuilder();
@@ -48,7 +48,7 @@ class AcceptanceRoboFile extends Tasks
                     true,
                 );
 
-                $state['collector'] = new PackageCollector();
+                $state['collector'] = new DependencyCollector();
 
                 $reporter = new ConsoleTableReporter();
                 $reporter->setTable(new Table($this->output()));
@@ -75,8 +75,8 @@ class AcceptanceRoboFile extends Tasks
             ->addTask(
                 $this
                     ->taskPamaldLockDiffer()
-                    ->deferTaskConfiguration('setLeftPackages', 'left.pamald.composerPackages')
-                    ->deferTaskConfiguration('setRightPackages', 'right.pamald.composerPackages')
+                    ->deferTaskConfiguration('setLeftPackages', 'left.pamald.composer.dependencies')
+                    ->deferTaskConfiguration('setRightPackages', 'right.pamald.composer.dependencies')
             )
             ->addTask(
                 $this
@@ -84,6 +84,32 @@ class AcceptanceRoboFile extends Tasks
                     ->deferTaskConfiguration('setLockDiffEntries', 'pamald.lockDiffEntries')
                     ->deferTaskConfiguration('setReporter', 'reporter')
             );
+
+        return $cb;
+    }
+
+    #[Command(name: 'pamald:git-hook:prepare-commit-msg')]
+    public function cmdGitHookPrepareCommitMsgExecute(): TaskInterface
+    {
+        $cb = $this->collectionBuilder();
+
+        $cb->addCode(function (RoboState $state): int {
+            $state['commitMsgParts'] = [
+                //
+            ];
+
+            return 0;
+        });
+
+        $taskModify = $this->taskPamaldComposerModifyCommitMsgParts();
+        $taskModify->setStateKeyCommitMsgParts('commitMsgParts');
+        $cb->addTask($taskModify);
+
+        $cb->addCode(function (RoboState $state): int {
+            $this->output()->writeln(Yaml::dump($state['commitMsgParts'], 99, 4));
+
+            return 0;
+        });
 
         return $cb;
     }

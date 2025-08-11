@@ -7,10 +7,14 @@ namespace Pamald\Robo\PamaldComposer;
 use League\Container\ContainerAwareInterface;
 use Robo\Collection\CollectionBuilder;
 
+/**
+ * @phpstan-import-type RoboPamaldComposerCollectPackagesTaskOptions from \Pamald\Robo\PamaldComposer\Phpstan
+ * @phpstan-import-type RoboPamaldComposerModifyCommitMsgPartsTaskOptions from \Pamald\Robo\PamaldComposer\Phpstan
+ */
 trait PamaldComposerTaskLoader
 {
     /**
-     * @phpstan-param robo-pamald-composer-collect-packages-task-options $options
+     * @phpstan-param RoboPamaldComposerCollectPackagesTaskOptions $options
      *
      * @return \Pamald\Robo\PamaldComposer\Task\CollectComposerPackagesTask|\Robo\Collection\CollectionBuilder
      */
@@ -24,7 +28,7 @@ trait PamaldComposerTaskLoader
     }
 
     /**
-     * @phpstan-param robo-pamald-modify-commit-msg-parts-task-options $options
+     * @phpstan-param RoboPamaldComposerModifyCommitMsgPartsTaskOptions $options
      *
      * @return \Pamald\Robo\PamaldComposer\Task\ModifyCommitMsgPartsTask|\Robo\Collection\CollectionBuilder
      */

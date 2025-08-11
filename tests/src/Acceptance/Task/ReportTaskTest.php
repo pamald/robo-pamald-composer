@@ -11,16 +11,20 @@ class ReportTaskTest extends TaskTestBase
         $actual = $this->runRoboCommand(['pamald:report']);
         $expected = [
             'exitCode' => 0,
+            // phpcs:disable Generic.Files.LineLength.TooLong
             'out' => <<< 'Text'
-                +------+-----------+-----------+----------------+----------------+---------+---------+
-                | Name | L Version | R Version | L Relationship | R Relationship | L Depth | R Depth |
-                +------+-----------+-----------+----------------+----------------+---------+---------+
-                | a/b  | 2.0.0     | 2.1.3     | prod           | prod           | direct  | direct  |
-                | a/c  |           | 5.0.0     |                | prod           |         | direct  |
-                | a/d  |           | 6.0.0     |                | prod           |         | child   |
-                +------+-----------+-----------+----------------+----------------+---------+---------+
+                +------+-----------+-----------+---------+---------+----------+----------+------------+------------+---------+---------+
+                | Name | L Version | R Version | L Type  | R Type  | L Link   | R Link   | L Env      | R Env      | L Depth | R Depth |
+                +------+-----------+-----------+---------+---------+----------+----------+------------+------------+---------+---------+
+                | Production - Direct                                                                                                  |
+                | a/b  | 2.0.0     | 2.1.3     | package | package | required | required | production | production | direct  | direct  |
+                | a/c  |           | 5.0.0     |         | package |          | required |            | production |         | direct  |
+                | Production - Indirect                                                                                                |
+                | a/d  |           | 6.0.0     |         | package |          | required |            | production |         | child   |
+                +------+-----------+-----------+---------+---------+----------+----------+------------+------------+---------+---------+
 
                 Text,
+            // phpcs:enable Generic.Files.LineLength.TooLong
             'err' => implode(
                 "\n",
                 [

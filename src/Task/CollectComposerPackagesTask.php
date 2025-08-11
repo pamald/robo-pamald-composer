@@ -4,27 +4,30 @@ declare(strict_types = 1);
 
 namespace Pamald\Robo\PamaldComposer\Task;
 
-use Pamald\PamaldComposer\PackageCollector;
+use Pamald\PamaldComposer\DependencyCollector;
 
+/**
+ * @phpstan-import-type RoboPamaldComposerCollectPackagesTaskOptions from \Pamald\Robo\PamaldComposer\Phpstan
+ */
 class CollectComposerPackagesTask extends TaskBase
 {
 
     protected string $taskName = 'pamald - Collect Composer packages';
 
     // region collector
-    protected ?PackageCollector $collector = null;
+    protected ?DependencyCollector $collector = null;
 
-    public function getCollector(): ?PackageCollector
+    public function getCollector(): ?DependencyCollector
     {
         return $this->collector;
     }
 
-    protected function getCollectorFinal(): PackageCollector
+    protected function getCollectorFinal(): DependencyCollector
     {
-        return $this->getCollector() ?: new PackageCollector();
+        return $this->getCollector() ?: new DependencyCollector();
     }
 
-    public function setCollector(?PackageCollector $collector): static
+    public function setCollector(?DependencyCollector $collector): static
     {
         $this->collector = $collector;
 
@@ -85,7 +88,7 @@ class CollectComposerPackagesTask extends TaskBase
     /**
      * {@inheritdoc}
      *
-     * @phpstan-param robo-pamald-composer-collect-packages-task-options $options
+     * @phpstan-param RoboPamaldComposerCollectPackagesTaskOptions $options
      */
     public function setOptions(array $options): static
     {
@@ -115,7 +118,7 @@ class CollectComposerPackagesTask extends TaskBase
 
     protected function runDoIt(): static
     {
-        $this->assets['pamald.composerPackages'] = $this
+        $this->assets['pamald.composer.dependencies'] = $this
             ->getCollectorFinal()
             ->collect($this->getLock(), $this->getJson());
 
